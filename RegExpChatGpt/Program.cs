@@ -1,13 +1,15 @@
 ﻿
-class Program
+namespace RegExpChatGpt;
+
+public static class Program
 {
     public static void Main(string[] args)
     {
         
     }
-    
-    
-    bool ValidateStringComplexity(string? input, int maxLength)
+
+
+    static bool ValidateStringComplexity(string? input, int maxLength)
     {
         if (input == null || input.Length > maxLength)
             return false;
