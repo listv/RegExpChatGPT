@@ -1,0 +1,105 @@
+namespace RegExpChatGpt;
+
+public static class Program
+{
+    public static void Main()
+    {
+        TestValidateStringComplexity();
+    }
+
+    static void TestValidateStringComplexity()
+    {
+        // Test cases with different inputs and edge cases
+        string[] testInputs = {
+            // Existing test cases
+            null,                 // Null input
+            "",                   // Empty input
+            "abc",                // Too short input (less than maxLength)
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ",  // Missing lowercase
+            "abcdefghijklmnopqrstuvwxyz",  // Missing uppercase
+            "1234567890",         // Missing special character
+            "!@#$%^&*()_+",       // Missing digit
+            "Abcdef!1",           // Matching input length
+            " Abcdef!1",          // Leading whitespace
+            "Abcdef!1 ",          // Trailing whitespace
+            " Abcdef!1 ",         // Leading and trailing whitespace
+            "A bcdef!1",          // Whitespace in between
+            "Abcdef !1",          // Whitespace before special character
+            "Abcdef! 1",          // Whitespace after special character
+            "A b c d e f! 1",     // Whitespace in various positions
+            "A  b  c  d  e  f!1", // Multiple consecutive whitespaces
+
+            // Additional test cases for tabulation symbols, newline symbols, and line break symbols
+            "Abc\tdef!1",         // Tabulation symbol
+            "Abc\ndef!1",         // Newline symbol
+            "Abc\rdef!1",         // Carriage return symbol
+            "Abc\n\rdef!1",       // Newline and carriage return symbols
+            "A\nb\rc\td\ne\r\nf!1" // Mix of whitespace symbols
+        };
+
+        int maxLength = 10;
+
+        foreach (string input in testInputs)
+        {
+            bool isValid = ValidateStringComplexity(input, maxLength);
+            Console.WriteLine($"Input: \"{input}\" | Valid: {isValid}");
+        }
+    }
+
+
+
+    static bool ValidateStringComplexity(string? input, int maxLength)
+    {
+       if (input == null || input.Length > maxLength)
+            return false;
+
+        if (Regex.IsMatch(input, @"\s"))
+            return false;
+
+        var hasUppercase = Regex.IsMatch(input, @"[A-Z]");
+        var hasLowercase = Regex.IsMatch(input, @"[a-z]");
+        var hasDigit = Regex.IsMatch(input, @"\d");
+        var hasSpecialChar = Regex.IsMatch(input, @"[!""#$%&'()*+,-./:;<=>?@[\]^_`{|}~]");
+
+        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
+    }
+}
+
+For the c# code above create a Readme.md file with  
+
+Application description: 1 paragraph, 2-5 Sentences. 
+
+Regex implementation description: 1 paragraph, 4-10 Sentences. 
+
+Information on how to run the developed application locally. 
+
+ChatGPT
+Application Description
+The application is a C# program that demonstrates the usage of regular expressions (regex) to validate the complexity of a given string. It includes a method called ValidateStringComplexity, which takes an input string and a maximum length as parameters. The method applies various regex patterns to determine if the input string meets certain complexity criteria. The program also includes a test method, TestValidateStringComplexity, which runs a series of test cases with different inputs to validate the behavior of the ValidateStringComplexity method.
+
+Regex Implementation Description
+The ValidateStringComplexity method uses regular expressions to check for the complexity of the input string. Here's how the regex patterns are applied:
+
+The method first checks if the input is null or exceeds the maximum length. If either condition is true, the method returns false.
+
+Next, the method uses the regex pattern \s to check if the input contains any whitespace characters. If it does, the method returns false. This ensures that the input does not have any leading, trailing, or consecutive whitespace.
+
+The method then uses the following regex patterns to check for specific complexity requirements:
+
+[A-Z]: Checks if the input has at least one uppercase letter.
+[a-z]: Checks if the input has at least one lowercase letter.
+\d: Checks if the input has at least one digit (0-9).
+[!\"#$%&'()*+,-./:;<=>?@[\]^_{|}~]`: Checks if the input has at least one special character.
+Finally, if all the complexity requirements are met, the method returns true, indicating that the input string is considered complex.
+
+The regex patterns allow for efficient and flexible validation of the input string's complexity. By leveraging regex, the method can easily check for specific character types and patterns without the need for complex manual string manipulation.
+
+Running the Application Locally
+To run the developed application locally, follow these steps:
+
+Set up a C# development environment on your machine if you haven't already.
+Create a new C# project or open an existing one.
+Copy the provided code into a C# file within your project, e.g., Program.cs.
+Compile and run the application using your preferred C# compiler or integrated development environment (IDE).
+The program will execute the TestValidateStringComplexity method, which will run a series of test cases and output the results to the console.
+Ensure that you have the necessary dependencies and libraries installed to compile and run C# programs. You may need to adjust the code or project settings depending on your specific development environment.
